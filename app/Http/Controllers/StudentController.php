@@ -10,15 +10,15 @@ class StudentController extends Controller
 {
     public function index()
     {
-        if(isset($_POST['select']))
+        if(isset($_GET['select']))
         {
-        $f = $_POST['select'];
+        $select = $_GET['select'];
         }else
         {
-            $f = 5 ;
+            $select = 10 ;
         }
-        
-        $student = Student::paginate($f);
+        echo $select;
+        $student = Student::paginate($select);
         return view('student.index',compact('student'))
             ->with(request()->input('page'));
     }

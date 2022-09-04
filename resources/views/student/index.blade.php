@@ -11,6 +11,26 @@
                         <a href="{{ url('add-student') }}" class="btn btn-primary float-end">Add Student</a>
                     </h4>
                 </div>
+                <form id="myForm" action="{{ url('/students') }}" method="get" onchange="myFunction()">
+                    <select name="select" id="select">
+                        <?php 
+             if(isset($_GET['select']))
+             {
+                $select = $_GET['select'];
+             }else
+             {
+                $select = 10;
+             }
+                        ?>
+                        <option value="10" <?php if ($select == 10) { ?> selected="selected" <?php } ?>>10</option>
+                        <option value="20" <?php if ($select == 20) { ?> selected="selected" <?php } ?>>20</option>
+                    </select>
+                </form>
+                <script>
+                    function myFunction() {
+                      document.getElementById("myForm").submit();
+                    }
+                    </script>
                 @if(isset(Auth::user()->email))
     <div class="alert alert-success success-block">
      <strong>Welcome {{ Auth::user()->email }}</strong>

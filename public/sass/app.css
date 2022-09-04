@@ -9,4 +9,9 @@
 strong {
   margin-left: 10px;
 }
+select
+{
+  width:10%;
+  margin-left: 200px;
+}
 
