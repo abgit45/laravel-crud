@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Validator;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -57,14 +57,8 @@ class EmployeeController extends Controller {
 	// handle insert a new employee ajax request
 	public function store(Request $request) {
 		$val = $request->validate([
-			$request->fname => 'required|unique:employees,first_name,last_name',
-			$request->fname => 'required'
-		]);
-		if ($val->fails())
-		{
-			return response()->json(['errors'=>123,]);
-		}
-		
+			'fname' => 'required|unique:employees,first_name,last_name'
+		]);	
 		$file = $request->file('avatar');
 		$fileName = time() . '.' . $file->getClientOriginalExtension();
 		$file->storeAs('public/images', $fileName);

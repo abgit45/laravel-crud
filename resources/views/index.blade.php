@@ -13,8 +13,10 @@
   <link rel='stylesheet'
     href='https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css' />
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/dt-1.10.25/datatables.min.css" />
-  <style>
-</style>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.bundle.min.js'></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/datatables.min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 {{-- add new employee modal start --}}
 <div class="modal fade" id="addEmployeeModal" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -31,24 +33,24 @@
           <div class="row">
             <div class="col-lg">
               <label for="fname">First Name</label>
-              <input type="text" name="fname" class="form-control" placeholder="First Name" required>
+              <input type="text" name="fname"  id="ff" class="form-control" placeholder="First Name" required>
             </div>
             <div class="col-lg">
               <label for="lname">Last Name</label>
-              <input type="text" name="lname" class="form-control" placeholder="Last Name" required>
+              <input type="text" name="lname"  id="ll" class="form-control" placeholder="Last Name" required>
             </div>
           </div>
           <div class="my-2">
             <label for="email">E-mail</label>
-            <input type="email" name="email" class="form-control" placeholder="E-mail" required>
+            <input type="email" name="email" id="em" class="form-control" placeholder="E-mail" required>
           </div>
           <div class="my-2">
             <label for="phone">Phone</label>
-            <input type="tel" name="phone" class="form-control" placeholder="Phone" required>
+            <input type="tel" name="phone"  id="ph" class="form-control" placeholder="Phone" required>
           </div>
           <div class="my-2">
             <label for="post">course</label>
-            <input type="text" name="post" class="form-control" placeholder="course" required>
+            <input type="text" name="post"  id="co" class="form-control" placeholder="course" required>
           </div>
           <div class="my-2">
             <label for="avatar">Select Avatar</label>
@@ -135,10 +137,7 @@
       </div>
     </div>
   </div>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js'></script>
-  <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.0.2/js/bootstrap.bundle.min.js'></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/dt-1.10.25/datatables.min.js"></script>
-  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  
   <script>
     $(function() {
 
@@ -157,6 +156,21 @@ $("#add_employee_form").submit(function(e) {
     dataType: 'json',
     success: function(response) {
       if (response.status == 200) {
+        $("#ff").css("border-color", "#ced4da");
+        $("#ff").css("background-color", "#fff");
+
+        $("#ll").css("border-color", "#ced4da");
+        $("#ll").css("background-color", "#fff");
+
+
+        $("#em").css("background-color", "#fff");
+
+
+        $("#ph").css("background-color", "#fff");
+
+
+        $("#co").css("background-color", "#fff");
+
         Swal.fire(
           'Added!',
           'Employee Added Successfully!',
@@ -167,7 +181,25 @@ $("#add_employee_form").submit(function(e) {
       $("#add_employee_btn").text('Add Employee');
       $("#add_employee_form")[0].reset();
       $("#addEmployeeModal").modal('hide');
-    }
+    },
+    error: function(err) {
+      console.log(err.responseJSON.errors);
+      if (err.status == 422) 
+      {
+        $("#ff").css("border-color", "#ff0000");
+        $("#ff").css("background-color", "#f7e2e2");
+        $("#ll").css("border-color", "#ff0000");
+        $("#ll").css("background-color", "#f7e2e2");
+  err.responseJSON.errors.fname = "the fname or lname has been taken"  ;
+  Swal.fire({
+  icon: 'error',
+  title:'Oops.. ',
+  text: err.responseJSON.errors.fname ,
+  footer: '<a href="">Why do I have this issue?</a>'
+})
+      }
+console.log(err);
+    },
   });
 });
 
